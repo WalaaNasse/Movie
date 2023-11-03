@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie List</title>
+    <style>
+        /* CSS styles for the entire page */
+        body {
+            background-color: black; /* Set the background color to black */
+            color: white; /* Set the text color to white */
+        }
+
+        /* CSS styles for the title */
+        #title {
+            text-align: center; /* Center-align the title */
+        }
+
+        /* CSS styles for images */
+        .movie-container {
+            display: inline-block;
+            margin: 10px;
+            text-align: center;
+            vertical-align: top; /* Align the top of all lines */
+        }
+
+        .movie-image {
+            width: 200px; /* Adjust the width as needed */
+            height: 250px; /* Adjust the height as needed */
+            border-radius: 20%; /* Make the image round */
+            object-fit: cover; /* Maintain image aspect ratio */
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        .movie-details {
+            margin: 10px; /* Set the same margin on the left and right for title and overview */
+            font-size: 7px; /* Reduce the font size */
+        }
+    </style>
+</head>
+<body>
+    <h1 id="title">Trending Movie</h1>
+    <div id="container"></div>
+
+    <script>
+        fetch('https://api.themoviedb.org/3/discover/movie?api_key=4e05be795b3eb0db918e99b3f4d70593')
+            .then(response => response.json())
+            .then(data => {
+                let results = data.results;
+                  console.log(results)
+                let container = document.getElementById('container');
+                let row = document.createElement('div');
+                row.classList.add('row');
+
+                results.forEach(e => {
+                    let movieContainer = document.createElement('div');
+                    movieContainer.classList.add('movie-container');
+
+                    let img = document.createElement('img');
+                    img.classList.add('movie-image');
+                    img.src = `https://image.tmdb.org/t/p/original${e.backdrop_path}`;
+
+                    let title = document.createElement('div');
+                    title.classList.add('movie-details'); // Add a class for margin and font size
+                    title.innerHTML = `Title: ${e.title}`;
+
+                    let overview = document.createElement('div');
+                    overview.classList.add('movie-details'); // Add a class for margin and font size
+                    overview.innerHTML = `Original_title: ${e.original_title}`;
+
+                    movieContainer.appendChild(img);
+                    movieContainer.appendChild(title);
+                    movieContainer.appendChild(overview);
+                    row.appendChild(movieContainer);
+
+                    // Create a new row after every five movies
+                    if (row.children.length === 5) {
+                        container.appendChild(row);
+                        row = document.createElement('div');
+                        row.classList.add('row');
+                    }
+                });
+            });
+    </script>
+</body>
+</html>

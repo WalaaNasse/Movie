@@ -1,0 +1,52 @@
+<head>
+    <title>Movie List</title>
+    <style>
+        /* CSS styles for images */
+        .movie-image {
+            width: 100px; /* Adjust the width as needed */
+            height: 150px; /* Adjust the height as needed */
+            display: inline-block; /* Make images display in-line */
+        }
+    </style>
+<body>
+    <span id="title" >Full Stack Training</span>
+   <h5 id="container" style="width: 100px;height: 100px;" >
+    
+   </h5>
+   
+   <span id="container1"></span>
+   Movies
+   
+ 
+    <script>   
+     fetch('https://api.themoviedb.org/3/discover/movie?api_key=4e05be795b3eb0db918e99b3f4d70593')
+// //    fetch('https:api.themoviedb.org/3/movie/latest?api_key=4e05be795b3eb0db918e99b3f4d70593')
+// fetch('https://api.themoviedb.org/3/movie/550?api_key=4e05be795b3eb0db918e99b3f4d70593')
+        .then(response => response.json())
+        .then(data => {  
+            console.log(data.results)  
+            let results= data.results;
+            console.log(results)     
+            let container = document.getElementById('container')  
+            results.forEach(e => {
+                console.log(e.title)
+                console.log(e.overview)
+                //console.log(country.flags.png)
+              
+               let div = document.createElement('div')
+               div.innerHTML =` Title:${e.title}`;
+               let over=document.createElement('over');
+               over.innerText=`Overview:${e.overview}`;
+
+                let img = document.createElement('img')
+                //img.className = 'movie-image'; // Apply the CSS class
+                img.src = `https://image.tmdb.org/t/p/original${e.backdrop_path}`;
+                container.appendChild(div)
+                container.appendChild(over);
+                container.appendChild(img);                
+            });
+        })
+  
+      </script>
+    
+  </body>
